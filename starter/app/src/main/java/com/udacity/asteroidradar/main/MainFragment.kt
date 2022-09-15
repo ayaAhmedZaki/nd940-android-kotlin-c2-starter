@@ -37,6 +37,8 @@ class MainFragment : Fragment() {
     private var asteroidAdapter : AsteroidAdapter? = null
     lateinit var binding : FragmentMainBinding
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentMainBinding.inflate(inflater)
@@ -98,17 +100,73 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         val database = getDatabase(requireContext())
+         val asteroidRepository = AsteroidRepository(database)
+        when (item.itemId) {
+            R.id.show_today_menu -> {
+                //AsteroidFilterStatus.TODAY
+                observeTodayData(asteroidRepository)
 
-        viewModel.setFilterValue(
-            when (item.itemId) {
-                R.id.show_today_menu -> AsteroidFilterStatus.TODAY
-                R.id.show_saved_menu -> AsteroidFilterStatus.SAVED
-                else -> {AsteroidFilterStatus.WEEK}
             }
-        )
+            R.id.show_saved_menu -> {
+                observeSavedData(asteroidRepository)
+               // AsteroidFilterStatus.SAVED
+            }
+            else -> {
+                observeData(asteroidRepository)
+                //AsteroidFilterStatus.WEEK
+             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+//        viewModel.setFilterValue(
+//
+//        )
 
 
 
         return true
+    }
+
+    private fun observeData(asteroidRepository: AsteroidRepository) {
+        asteroidRepository.asteroid.observe(viewLifecycleOwner,
+            Observer<List<Asteroid>> {
+                Log.d("FilterObseerve", "observeWEk ${it}")
+
+                it?.apply {
+                    asteroidAdapter?.asteroid = it
+                }
+            })
+    }
+    private fun observeSavedData(asteroidRepository: AsteroidRepository) {
+        asteroidRepository.asteroidSaved.observe(viewLifecycleOwner,
+            Observer<List<Asteroid>> {
+                Log.d("FilterObseerve", "observeWEk ${it}")
+
+                it?.apply {
+                    asteroidAdapter?.asteroid = it
+                }
+            })
+    }
+
+    private fun observeTodayData(asteroidRepository: AsteroidRepository) {
+
+        asteroidRepository.asteroidToday.observe(viewLifecycleOwner,
+            Observer<List<Asteroid>> {
+                Log.d("FilterObseerve", "observeWEk ${it}")
+
+                it?.apply {
+                    asteroidAdapter?.asteroid = it
+                }
+            })
     }
 }

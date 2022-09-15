@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.api.Network
 import com.udacity.asteroidradar.database.getDatabase
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import okhttp3.internal.notify
@@ -17,6 +18,8 @@ enum class AsteroidFilterStatus { WEEK, TODAY, SAVED }
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
+//    lateinit var listAsteroidData : List<Asteroid>
+//    lateinit var asteroidToday: LiveData<List<Asteroid>>
     private val _status = MutableLiveData<AsteroidApiStatus>()
 
     val status: LiveData<AsteroidApiStatus>
@@ -51,9 +54,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     }
-    var asteroidTodaylist = asteroidRepository.asteroidToday
+  //  var asteroidTodaylist = asteroidRepository.asteroidToday
     var asteroidlist = asteroidRepository.asteroid
-    var asteroidSavedlist = asteroidRepository.asteroidSaved
+   // var asteroidSavedlist = asteroidRepository.asteroidSaved
 //    private fun getDb() {
 //        _data.value = asteroidRepository.asteroid
 //    }
@@ -92,28 +95,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun setFilterValue(filterStatus: AsteroidFilterStatus) {
-        Log.d("FilterStatus", "datd ${filterStatus}")
-        _filterStatus.value = filterStatus
-        Log.d("FilterStatus", "after ${_filterStatus.value}")
-        when (filterStatus) {
-            AsteroidFilterStatus.TODAY -> {
-                asteroidTodaylist = asteroidRepository.asteroidToday
-                Log.d("FilterStatus", "list ${asteroidTodaylist.value?.size}")
-            }
-            AsteroidFilterStatus.SAVED -> {
-                asteroidSavedlist = asteroidRepository.asteroidSaved
-                Log.d("FilterStatus", "list ${asteroidSavedlist.value?.size}")
-            }
-            else -> {
-                asteroidlist = asteroidRepository.asteroid
-                Log.d("FilterStatus", "list ${asteroidlist.value?.size}")
-            }
-        }
-        // setData(filterStatus)
-
-
-    }
+//    fun setFilterValue(filterStatus: AsteroidFilterStatus) {
+//        Log.d("FilterStatus", "datd ${filterStatus}")
+//        _filterStatus.value = filterStatus
+//        Log.d("FilterStatus", "after ${_filterStatus.value}")
+//        when (filterStatus) {
+//            AsteroidFilterStatus.TODAY -> {
+//               // asteroidTodaylist = asteroidRepository.asteroidToday
+//                asteroidToday = asteroidRepository.asteroidToday
+//                Log.d("FilterStatus", "list ${asteroidToday.value?.size}")
+//            }
+//            AsteroidFilterStatus.SAVED -> {
+//                asteroidSavedlist = asteroidRepository.asteroidSaved
+//                Log.d("FilterStatus", "list ${asteroidSavedlist.value?.size}")
+//            }
+//            else -> {
+//                asteroidlist = asteroidRepository.asteroid
+//                Log.d("FilterStatus", "list ${asteroidlist.value?.size}")
+//            }
+//        }
+//        // setData(filterStatus)
+//
+//
+//    }
 
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
