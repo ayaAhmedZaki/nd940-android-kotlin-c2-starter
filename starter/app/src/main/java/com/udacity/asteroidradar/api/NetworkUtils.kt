@@ -1,13 +1,15 @@
 package com.udacity.asteroidradar.api
 
-import com.udacity.asteroidradar.Asteroid
+import android.util.Log
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.domain.Asteroid
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
+    Log.d("MAINUTIL" , "TestUtil ${jsonResult}")
+
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
 
     val asteroidList = ArrayList<Asteroid>()
@@ -15,6 +17,8 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nextSevenDaysFormattedDates = getNextSevenDaysFormattedDates()
     for (formattedDate in nextSevenDaysFormattedDates) {
         if (nearEarthObjectsJson.has(formattedDate)) {
+            Log.d("MAINUTIL" , "ifffffff")
+
             val dateAsteroidJsonArray = nearEarthObjectsJson.getJSONArray(formattedDate)
 
             for (i in 0 until dateAsteroidJsonArray.length()) {
@@ -40,6 +44,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
             }
         }
     }
+    Log.d("MAINUTIL" , "TestUtil ${asteroidList.size}")
 
     return asteroidList
 }
@@ -56,4 +61,25 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     }
 
     return formattedDateList
+}
+
+fun getCurrentDate(): String? {
+//    val current = LocalDateTime.now()
+//    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//    val formatted = current.format(formatter)
+//
+//    return formatted
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val currentDate = sdf.format(Date())
+    return currentDate
+}
+
+fun getNextDate(curDate: String?): String? {
+    val format = SimpleDateFormat("yyyy-MM-dd")
+    val date = format.parse(curDate)
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    calendar.add(Calendar.DAY_OF_YEAR, 7)
+    return format.format(calendar.time)
 }

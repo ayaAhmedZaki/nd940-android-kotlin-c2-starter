@@ -7,7 +7,7 @@
 
         <variable
             name="asteroid"
-            type="com.udacity.asteroidradar.Asteroid" />
+            type="com.udacity.asteroidradar.domain.Asteroid" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +22,7 @@
             android:adjustViewBounds="true"
             app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/asteroid_safe" />

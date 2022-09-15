@@ -7,6 +7,8 @@
             name="viewModel"
             type="com.udacity.asteroidradar.main.MainViewModel" />
 
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +30,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/placeholder_picture_of_day"/>
+                android:contentDescription="@{viewModel.imageData.title}"
+                app:srcCompat="@drawable/placeholder_picture_of_day" />
 
             <TextView
                 android:id="@+id/textView"
@@ -38,9 +41,10 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="20sp"
+                android:text="@{viewModel.imageData.title}"
                 android:layout_gravity="bottom"
                 android:background="#55010613"
-                android:text="@string/image_of_the_day" />
+                />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -60,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="gone"
+            app:goneIfNotNull="@{viewModel.asteroidlist}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
