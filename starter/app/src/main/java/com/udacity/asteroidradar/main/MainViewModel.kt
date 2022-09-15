@@ -3,7 +3,7 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.api.Network
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
@@ -40,6 +40,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val imageData: LiveData<ImageOfDayResponse>
         get() = _imageData
 
+    val nasaApiKey = BuildConfig.NASA_API_KEY
+
+
 //    private val _asteroidlist = MutableLiveData<List<Asteroid>>()
 //
 //    val asteroidlist: LiveData<List<Asteroid>>
@@ -66,7 +69,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun getImage() {
         viewModelScope.launch {
             try {
-                _imageData.value = Network.devbytes.getimageOfDay(API_KEY).await()
+                _imageData.value = Network.devbytes.getimageOfDay(nasaApiKey).await()
             } catch (e: Exception) {
                 Log.d("MAINViewModel", "error")
 

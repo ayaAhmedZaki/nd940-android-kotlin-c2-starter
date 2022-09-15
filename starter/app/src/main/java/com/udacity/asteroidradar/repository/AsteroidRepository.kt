@@ -2,7 +2,7 @@ package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.api.*
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.asDomainModel
@@ -27,6 +27,8 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
         Transformations.map(database.asteroidDao.getSavedAsteroid()) {
             it.asDomainModel()
         }
+    val nasaApiKey = BuildConfig.NASA_API_KEY
+
 
     suspend fun refreshList() {
 //        Log.d("RepoData" , "test ${getCurrentDate()}")
@@ -37,7 +39,7 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
             val startDate = getCurrentDate()
             val endDate = getNextDate(startDate)
             val responseData =
-                Network.devbytes.getAsteroidData(startDate!!, endDate!!, API_KEY).await().string()
+                Network.devbytes.getAsteroidData(startDate!!, endDate!!, nasaApiKey).await().string()
             val listData = parseAsteroidsJsonResult(JSONObject(responseData))
 
             database.asteroidDao.insertAll(*listData.asDatabaseModel()) //Note the asterisk * is the spread operator.

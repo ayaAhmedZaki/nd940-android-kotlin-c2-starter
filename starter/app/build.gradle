@@ -16,6 +16,8 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'NASA_API_KEY', myApiNasa
+
     }
     buildTypes {
         release {

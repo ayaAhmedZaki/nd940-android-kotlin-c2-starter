@@ -21,4 +21,6 @@
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="details_image">Image  of details</string>
     <string name="help_btn">"Help Button "</string>
+
+
 </resources>
